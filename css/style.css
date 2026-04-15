@@ -4,10 +4,28 @@
 
 #screenspace {
     display: grid;
-    width: auto, auto, auto;
-    height: 25vh 15vh, 1fr;
+    width: auto, auto, auto, auto;
+    height: 3vh, 25vh 15vh, 1fr;
     
     justify-content: center
+}
+
+.save {
+    background-color: black;
+    color: white;
+    height: 2vh;
+    width: 5vb;
+    justify-self: center;
+    text-align: center;
+}
+
+.get {
+    background-color: black;
+    color: white;
+    height: 2vh;
+    width: 5vb;
+    justify-self: center;
+    text-align: center;
 }
 
 #Score {
