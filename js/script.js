@@ -1,3 +1,6 @@
+var points = 0
+
 document.querySelector(".circle").addEventListener("click", function(){
-    this.style.backgroundColor="red";
+    points++
+    console.log(points)
 })
