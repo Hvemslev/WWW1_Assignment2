@@ -13,7 +13,7 @@ document.querySelector(".circle").addEventListener("click", function(){
 function update() {
   requestAnimationFrame(() => {
     if(diameter>5){
-        diameter-=0.1
+        diameter-=0.02
     }
     document.querySelector(".circle").style.width=diameter+"rem"
     document.querySelector(".circle").style.height=diameter+"rem"
