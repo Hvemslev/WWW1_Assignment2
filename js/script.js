@@ -11,7 +11,7 @@ var unlockedUpgrades = {} // {upgradeName: amount} - upgradeName refers to name 
 
 
 document.querySelector(".circle").addEventListener("click", function(){
-    points += calculatePointPerClick();
+    points += parseFloat(calculatePointPerClick());
     console.log(points);
 })
 
@@ -22,7 +22,7 @@ function saveLocalstorage() {
 }
 
 function loadLocalStorage() {
-    points = localStorage.getItem("points") ? localStorage.getItem("points") : 0;
+    points = parseFloat(localStorage.getItem("points") || 0);
     unlockedUpgrades = localStorage.getItem("unlockedUpgrades") ? JSON.parse(localStorage.getItem("unlockedUpgrades")) : {};
 }
 
@@ -45,7 +45,7 @@ function displayUpgrades() {
 
 function autoMoney() {
     var earningsPerSecond = calculateEarningsPerSecond();
-    points += earningsPerSecond * (AUTO_MONEY_INTERVAL / 1000);
+    points += parseFloat(earningsPerSecond* (AUTO_MONEY_INTERVAL / 1000));
 }
 
 function calculatePointPerClick() {
