@@ -21,8 +21,6 @@ body {
 #screenspace {
     grid-column: 2 / span 1;
     display: grid;
-    width: auto, auto, auto;
-    height: 25vh 15vh, 1fr;
     
     justify-content: center
 }
@@ -49,6 +47,8 @@ body {
     border-color: black;
     text-align: center;
     align-self: flex-start;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #gameRules {

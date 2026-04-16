@@ -63,8 +63,8 @@ function displayUpgrades() {
     for (var upgrade in upgrades) {
         console.log(upgrade);
         upgradeButtons +=   "<div>" + 
-                                    "<h1>" + upgrade.cost + "</h1>" +
-                                    "<h2>" + upgrade.name + "</h2>" +
+                                    "<h1>" + upgrades[upgrade].cost + "</h1>" +
+                                    "<h2>" + upgrades[upgrade].name + "</h2>" +
                             "</div>\n";
     }
 
