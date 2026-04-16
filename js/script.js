@@ -71,12 +71,6 @@ function displayUpgrades() {
     }
 
     upgradeBox.innerHTML = upgradeButtons;
-
-    document.querySelectorAll("#upgrades div").forEach(function(button) {
-        button.addEventListener("click", function(){
-        // Put upgrade function here
-        })
-    });
 }
 
 function buyUpgrade(upgradeId) {
