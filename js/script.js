@@ -68,7 +68,7 @@ function calculateOfflineEarnings() {
         var timeDifference = currentTime - lastVisit;
 
         if (timeDifference > MIN_OFFLINE_EARNING_TIME) {
-            var offlineEarnings = Math.floor((timeDifference / 1000) * OFFLINE_EARNING_EFFICIENCY);
+            var offlineEarnings = Math.floor(calculateEarningsPerSecond() * (timeDifference / 1000) * OFFLINE_EARNING_EFFICIENCY);
             points += offlineEarnings;
             alert(`Welcome back! You've earned ${offlineEarnings} points while you were away.`);
         }
