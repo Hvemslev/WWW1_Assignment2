@@ -1,26 +1,9 @@
-var diameter = 5
 
-document.querySelector(".circle").addEventListener("click", function(){
+/*document.querySelector(".circle").addEventListener("click", function(){
     points++
     document.getElementById("Score").innerText=points+"!"
     diameter = 5.5
-})
-
-
-
-
-function update() {
-  requestAnimationFrame(() => {
-    if(diameter>5){
-        diameter-=0.02
-    }
-    document.querySelector(".circle").style.width=diameter+"rem"
-    document.querySelector(".circle").style.height=diameter+"rem"
-
-    update();
-  });
-}
-update();
+})*/
 
 const OFFLINE_EARNING_EFFICIENCY = 0.25; 
 const MIN_OFFLINE_EARNING_TIME = 60000; // 1 minute in milliseconds
@@ -29,6 +12,7 @@ const AUTO_MONEY_INTERVAL = 25; // Auto money every 25ms for smooth increase
 const BASE_CLICK_VALUE = 1;
 
 var points = 0
+var diameter = 5
 
 var upgrades = {} // fetched upgrade structure from json/upgrades.json
 var unlockedUpgrades = {} // {upgradeName: amount} - upgradeName refers to name in upgrades.json
@@ -36,8 +20,20 @@ var unlockedUpgrades = {} // {upgradeName: amount} - upgradeName refers to name 
 
 document.querySelector(".circle").addEventListener("click", function(){
     points += parseFloat(calculatePointPerClick());
+    document.getElementById("Score").innerText=points+"!"
+    diameter = 5.5
     console.log(points);
 })
+
+function update() {
+  requestAnimationFrame(() => {
+    if(diameter>5){
+        diameter-=0.02
+    }
+    document.querySelector(".circle").style.width=diameter+"rem"
+    document.querySelector(".circle").style.height=diameter+"rem"
+  });
+}
 
 function saveLocalstorage() {
     localStorage.setItem("points", points);
@@ -62,9 +58,23 @@ function loadUpgradesFromJson() {
 
 
 function displayUpgrades() {
+    let upgradeBox = document.getElementById("upgrades");
+    let upgradeButtons = "";
     for (var upgrade in upgrades) {
         console.log(upgrade);
+        upgradeButtons +=   "<div>" + 
+                                    "<h1>" + upgrade.cost + "</h1>" +
+                                    "<h2>" + upgrade.name + "</h2>" +
+                            "</div>\n";
     }
+
+    upgradeBox.innerHTML = upgradeButtons;
+
+    document.querySelectorAll("#upgrades div").forEach(function(button) {
+        button.addEventListener("click", function(){
+        // Put upgrade function here
+        })
+    });
 }
 
 function autoMoney() {
@@ -104,7 +114,9 @@ window.addEventListener("load", function() {
     loadLocalStorage();
     loadUpgradesFromJson();
     calculateOfflineEarnings();
+    document.getElementById("Score").innerText=points+"!"
 });
 
 setInterval(saveLocalstorage, LOCAL_STORAGE_SAVE_INTERVAL);
 setInterval(autoMoney, AUTO_MONEY_INTERVAL)
+setInterval(update, AUTO_MONEY_INTERVAL)

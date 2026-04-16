@@ -2,7 +2,24 @@
     height: 100%;
 }*/
 
+body {
+    display: grid;
+    grid-template-columns: 20vb, 60vb, 20vb;
+    grid-template-rows: auto, auto, auto;
+}
+
+#upgrades {
+    grid-column: 1 / span 1;
+
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 20px;
+    margin-left: 5vb;
+    margin-top: 5vh;
+}
+
 #screenspace {
+    grid-column: 2 / span 1;
     display: grid;
     width: auto, auto, auto;
     height: 25vh 15vh, 1fr;
@@ -11,7 +28,7 @@
 }
 
 #Score {
-    margin-top: 25vh;
+    margin-top: 20vh;
     font-size: 5em;
     font-family:Georgia, 'Times New Roman', Times, serif;
     justify-self: center;
@@ -23,5 +40,18 @@
     height: 5rem;
     width: 5rem;
     margin-top: 5vh;
+    justify-self: center;
+}
+
+#upgrades div {
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    text-align: center;
+    align-self: flex-start;
+}
+
+#gameRules {
+    grid-column: 3 / span 1;
     justify-self: center;
 }
