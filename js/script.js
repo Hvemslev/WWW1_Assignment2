@@ -20,7 +20,7 @@ var unlockedUpgrades = {} // {upgradeName: amount} - upgradeName refers to name 
 
 document.querySelector(".circle").addEventListener("click", function(){
     points += parseFloat(calculatePointPerClick());
-    document.getElementById("Score").innerText=points+"!"
+    setPointString()
     diameter = 5.5
     console.log(points);
 })
@@ -63,8 +63,10 @@ function displayUpgrades() {
     for (var upgrade in upgrades) {
         console.log(upgrade);
         upgradeButtons +=   "<div>" + 
-                                    "<h1>" + upgrades[upgrade].cost + "</h1>" +
+                                    "<h1>" + calcUpgradeCost(upgrade).toFixed(2) + "</h1>" +
                                     "<h2>" + upgrades[upgrade].name + "</h2>" +
+                                    "<p>" + upgrades[upgrade].description + "</p>" +
+                                    "<a href=\"#\" onclick=\"buyUpgrade('" + upgrade + "')\">Buy</a>" + // hacky dont read too much into it
                             "</div>\n";
     }
 
@@ -77,20 +79,58 @@ function displayUpgrades() {
     });
 }
 
+function buyUpgrade(upgradeId) {
+    let upgrade = upgrades[upgradeId];
+    let cost = calcUpgradeCost(upgradeId);
+    if (points >= cost) {
+        points -= cost;
+        unlockedUpgrades[upgradeId] = (unlockedUpgrades[upgradeId] || 0) + 1;
+        saveLocalstorage();
+        displayUpgrades();
+    } else {
+        alert("Not enough points to buy this upgrade!");
+    }
+    setPointString();
+}
+
+function calcUpgradeCost(upgradeId) {
+    let baseCost = upgrades[upgradeId].cost;
+    let amountOwned = unlockedUpgrades[upgradeId] || 0;
+
+    let multiplier = 1;
+    const scaling = upgrades[upgradeId].costScaling || {};
+    const scaleFactor = scaling.base || scaling.factor || 1;
+    if (scaling.type === "exponential") multiplier = Math.pow(scaleFactor, amountOwned);
+    if (scaling.type === "linear") multiplier = 1 + (scaleFactor * amountOwned);
+
+    return baseCost * multiplier;
+}
+
+
 function autoMoney() {
     var earningsPerSecond = calculateEarningsPerSecond();
-    points += parseFloat(earningsPerSecond* (AUTO_MONEY_INTERVAL / 1000));
+    var increaseBy = parseFloat(earningsPerSecond * (AUTO_MONEY_INTERVAL / 1000));
+    points += increaseBy;
+    setPointString();
 }
 
 function calculatePointPerClick() {
     let clickValue = BASE_CLICK_VALUE;
-    // loop through upgrades, multiply by amount of upgrades
+    for (var upgrade in unlockedUpgrades) {
+        let amount = unlockedUpgrades[upgrade];
+        let upgradeEffect = upgrades[upgrade].effect || {};
+        clickValue += (upgradeEffect.clickValue || 0) * amount;
+    }
     return clickValue;
 }
 
 function calculateEarningsPerSecond() {
     let earningsPerSecond = 0;
-    // loop through upgrades, multiply by amount of upgrades
+    for (var upgrade in unlockedUpgrades) {
+        let amount = unlockedUpgrades[upgrade];
+        let upgradeEffect = upgrades[upgrade].effect || {};
+        earningsPerSecond += (upgradeEffect.pointsPerSecond || 0) * amount;
+    }
     return earningsPerSecond;
 }
 
@@ -109,12 +149,15 @@ function calculateOfflineEarnings() {
     }
 }
 
+function setPointString() {
+    document.getElementById("Score").innerText=points.toFixed(2);
+}
 
 window.addEventListener("load", function() {
     loadLocalStorage();
     loadUpgradesFromJson();
     calculateOfflineEarnings();
-    document.getElementById("Score").innerText=points+"!"
+    setPointString();
 });
 
 setInterval(saveLocalstorage, LOCAL_STORAGE_SAVE_INTERVAL);
