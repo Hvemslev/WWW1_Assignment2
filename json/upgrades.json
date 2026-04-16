@@ -1,0 +1,28 @@
+{
+    "Clicker": {
+        "name": "Clicker",
+        "description": "Increases points per click by 1.",
+        "cost": 10,
+        "costScaling": {
+            "type": "exponential",
+            "base": 1.15
+        },
+        "effect": {
+            "clickValue": 1,
+            "pointsPerSecond": 0
+        }
+    },
+    "Auto Clicker": {
+        "name": "Auto Clicker",
+        "description": "Automatically generates points every second.",
+        "cost": 100,
+        "costScaling": {
+            "type": "exponential",
+            "base": 1.15
+        },
+        "effect": {
+            "clickValue": 0,
+            "pointsPerSecond": 1
+        }
+    }
+}
